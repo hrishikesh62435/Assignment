@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+ <aside class="main-sidebar sidebar-light-primary elevation-4" th:fragment="sidebar(menu, user)">
+   
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+       <!-- <div class="image">
+          <img th:src="@{${filePath}+${user.userPhoto}}" class="img-circle elevation-2" alt="User Image" id="sidebar-profile-picture">
+        </div>  -->
+        <div class="info"> <b>Wellcome</b>
+          <a href="#" class="d-block text-primary text-wrap"  th:text="${user.name}"></a>  
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+			<nav class="mt-2">
+				<ul class="nav nav-pills nav-sidebar flex-column"
+					data-widget="treeview" role="menu" data-accordion="false">
+
+					<li class="nav-item"><a th:href="@{/dashboard}"
+						class="nav-link" th:classappend="${menu.dashboardLink}"> <i
+							class="nav-icon fas fa-tachometer-alt"></i>
+							<p>Dashboard</p>
+					</a></li>
+
+					<li class="nav-item"><a th:href="@{/add}" class="nav-link"
+						th:classappend="${menu.userLink}"> <i
+							class="nav-icon fas fa-plus"></i>
+							<p>Add Item</p>
+					</a>
+					</li>
+					<li class="nav-item"><a th:href="@{/item-list}" class="nav-link"
+						th:classappend="${menu.ListLink}"> <i
+							class="nav-icon fas fa-list"></i>
+							<p>Item List</p>
+					</a>
+					</li>
+				</ul>
+			</nav>
+			<!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+</body>
+</html>
