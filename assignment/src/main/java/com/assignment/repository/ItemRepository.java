@@ -24,7 +24,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	
 	
 	@Query(value = "select * from tbl_item t where t.user_id = :userId" ,nativeQuery = true)
-	public	List<Item> findAllByUserId(@Param("userId") int userId);
+	public	List<Item> findAllByUserId(@Param("userId") int userId);  
 
 
 }
