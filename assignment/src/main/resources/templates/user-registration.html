@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <title>Auction System | Add Auction </title> -->
+  <title>Add Item</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--  <link rel="shortcut icon"  th:href="@{/dist/img/favicon.ico}"> -->
+  <link rel="shortcut icon"  th:href="@{/dist/img/favicon1.png}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+   <!-- Toastr -->
+  <link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- daterange picker -->
+  <link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+    <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+  <!-- iCheck -->
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+      <!-- Select2 -->
+  <link rel="stylesheet" th:href="@{/plugins/select2/css/select2.min.css}">
+  <link rel="stylesheet" th:href="@{/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" th:href="@{/plugins/jqvmap/jqvmap.min.css}">
+      <!-- Toastr -->
+  <link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+  <!-- summernote -->
+  <link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+ </head>
+ 
+<body>
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-10 d-flex justify-content-center align-items-center">
+                <h1 class="m-0 text-dark">REGISTRATION USER</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <!-- Breadcrumb items can go here -->
+                </ol>
+            </div><!-- /.col -->
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <div class="card card-outline card-primary">
+                    <form class="form-horizontal" id="regiForm" th:action="@{/save-registration}" th:method="post">
+                    <input type="hidden" name="messageError" id="messageError" th:value="${messageError}">	
+					<input type="hidden" name="messageSuccess" id="messageSuccess" th:value="${messageSuccess}">
+                        <div class="box-body">
+                            <span class="text-red">(* required)</span>
+
+                            <!-- User Name -->
+                            <div class="form-group row">
+                                <label for="organizationName" class="col-sm-3 col-form-label">User Name <span class="text-red">*</span></label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="organizationName" name="name" placeholder="User Name" required>
+                                </div>
+                            </div>
+
+                            <!-- Organization Contact -->
+                            <div class="form-group row">
+                                <label for="organizationContact" class="col-sm-3 col-form-label">user Contact <span class="text-red">*</span></label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="organizationContact" name="mobile" placeholder="User Contact" required maxlength="10" pattern="\d{10}" title="Please enter a valid 10-digit mobile number">
+                                </div>
+                            </div>
+
+                            <!-- User City -->
+                            <div class="form-group row">
+                                <label for="CityName" class="col-sm-3 col-form-label">User City <span class="text-red">*</span></label>
+                                <div class="col-sm-3">
+                                    <input class="form-control" id="CityName" name="CityName" placeholder="User City" required>
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group row">
+                                <label for="new_password" class="col-sm-3 col-form-label">Password <span class="text-red">*</span></label>
+                                <div class="col-sm-3">
+                                    <input type="password" class="form-control" id="new_password" name="password" placeholder="Enter Password" required>
+                                </div>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="form-group row">
+                                <label for="confirm_password" class="col-sm-3 col-form-label">Confirm Password <span class="text-red">*</span></label>
+                                <div class="col-sm-3">
+                                    <input type="password" class="form-control" id="confirm_password" name="conPassword" placeholder="Confirm Password" required>
+                                </div>
+                            </div>
+
+                            <!-- Show Password Checkbox -->
+                            <div class="form-group row">
+                                <div class="col-sm-3 offset-sm-3">
+                                    <input type="checkbox" id="show_password" onclick="togglePasswordVisibility()"> Show Password
+                                </div>
+                            </div>
+
+                            <!-- Submit and Reset Buttons -->
+                            <div class="form-group row">
+                                <div class="col-sm-3">
+                                    <button type="button" id="sbm" class="btn btn-block btn-primary" data-toggle="modal" data-target="#confirm-save">Registration</button>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button type="reset" id="rset" class="btn btn-block btn-danger">Reset</button>
+                                </div>
+                            </div>
+                            
+		                            <a th:href="@{/}" class="width-90 pull-left text-primary">	 <!--   -->														
+								<span class="bigger-120"><b>Login User</b></span>
+								<i class="ace-icon fa fa-arrow-right"></i></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="confirm-save" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-blue">
+                <i class="icon fa fa-exclamation-triangle"></i> Warning!
+            </div>
+            <div class="modal-body">
+                Do you want to save the record?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" id="submit" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/plugins/jquery-validation/additional-methods.min.js}"></script>
+<!-- Toastr -->
+<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
+
+<script type="text/javascript">
+$(document).ready(function () {
+	
+	
+	  var messageSuccess = $('#messageSuccess').val();
+	  if(messageSuccess.length > 0){
+		  toastr.success(messageSuccess); 
+	  }  
+	  
+	  var messageError = $('#messageError').val();
+	  if(messageError.length > 0){
+		  toastr.error(messageError); 
+	  }  
+	
+	
+	
+    const $regiForm = $("#regiForm");
+    const $resetButton = $("#rset");
+    const $submitButton = $("#submit");
+
+    // When the Save button is clicked, trigger the modal
+    $("#sbm").on("click", function () {
+        $("#confirm-save").modal("show");
+    });
+
+    // Form validation setup
+    $regiForm.validate({
+        rules: {
+            name: { required: true },
+            mobile: { required: true, maxlength: 10, pattern: /^\d{10}$/ },
+            CityName: { required: true },
+            password: { required: true },
+            conPassword: {
+                required: true,
+                equalTo: "#new_password"
+            }
+        },
+        messages: {
+            name: "Please enter the User name.",
+            mobile: "Please enter a valid mobile number.",
+            CityName: "Please enter the City name.",
+            password: "Please enter a password.",
+            conPassword: "Passwords must match."
+        },
+        submitHandler: function(form) {
+            form.submit(); // Uncomment to enable actual submission
+        }
+    });
+
+    // Reset form fields and uncheck show password checkbox
+    $resetButton.on("click", function() {
+        $regiForm[0].reset(); // Resets all form fields
+        $regiForm.validate().resetForm(); // Reset validation errors
+        $("#show_password").prop("checked", false); // Uncheck the show password checkbox
+    });
+
+    // Disable submit button temporarily on click
+    $submitButton.on("click", function() {
+        if ($regiForm.valid()) {
+            $(this).prop("disabled", true); // Disable the submit button
+            $regiForm.submit(); // Submit the form
+        }
+    });
+
+    // Password visibility toggle
+    $("#show_password").on("change", function() {
+        const newPassword = $("#new_password");
+        const confirmPassword = $("#confirm_password");
+        const type = $(this).is(":checked") ? "text" : "password"; // Toggle type
+        newPassword.attr("type", type);
+        confirmPassword.attr("type", type); // Ensure confirm password is also toggled
+    });
+});
+</script>
+
+</body>
+
+</html>

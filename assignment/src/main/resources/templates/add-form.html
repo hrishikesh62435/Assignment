@@ -56,12 +56,12 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">Add Item</h1>
+							<h1 class="m-0 text-dark">ADD ITEM</h1>
 						</div>
 						<div class="col-sm-6">
 				            <ol class="breadcrumb float-sm-right">
 				            
-				              <li class="breadcrumb-item active">Add Item</li>
+				              <li class="breadcrumb-item active">HOME/ADD ITEM</li>
 				            </ol>
 				        </div><!-- /.col -->
 					</div>
@@ -83,12 +83,10 @@
 									<input type="hidden" name="messageError" id="messageError" th:value="${messageError}">	
 									<input type="hidden" name="messageSuccess" id="messageSuccess" th:value="${messageSuccess}">
 									
-									
-									
 									<div class="card-body">
 										<div class="form-group row">
 											<div class='col-sm-2'>
-												<label for="itemName">Item Name</label>
+												<label for="itemName">ITEM NAME:</label>
 											</div>
 											<div class="col-sm-3">
 												<input type="text"  class="form-control" id="itemName"  name="itemName" pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required="required"
@@ -98,7 +96,7 @@
 																				
 										<div class="form-group row">
 										    <div class='col-sm-2'>
-											    <label for="itemDescription">Description</label>
+											    <label for="itemDescription">DESCRIPTION</label>
 											</div>
 											
 											<div class='col-sm-3'>
@@ -108,7 +106,7 @@
 										
 										<div class="form-group row">
 											<div class='col-sm-2'>
-												<label for="itemPrice">Price</label>
+												<label for="itemPrice">PRICE</label>
 											</div>
 											<div class="col-sm-2">
 												<input type="text" class="form-control" id="itemPrice"  name="itemPrice" placeholder="Price" pattern="[0-9]*" title="Only numbers are allowed" required="required" >													
@@ -135,7 +133,7 @@
 		</div>
   <!-- /.content-wrapper -->
  
-  <!-- <footer  th:replace="footer"></footer> -->
+ <footer  th:replace="footer"></footer> 
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

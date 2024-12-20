@@ -1,12 +1,8 @@
 package com.assignment.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.security.Principal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.assignment.Config.DateTimeUtil;
 import com.assignment.model.ActiveLinkMenu;
 import com.assignment.model.Item;
 import com.assignment.model.User;
@@ -40,9 +34,12 @@ public class AssignmentController {
 	
 	
 	public AssignmentController() {
-		System.out.println("run controller");
+		
 	}
 
+	 @Autowired
+	    private BCryptPasswordEncoder passwordEncoder;
+	
 	@Autowired
 	public UserRepository userRepository;
 	
@@ -68,7 +65,7 @@ public class AssignmentController {
 		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
 			return "login";
 		}
-
+	    
 		return "login";
 	}
 	// Dashboard
@@ -129,13 +126,15 @@ public class AssignmentController {
 		User user = userRepository.getUserByUserName(userName);
 			
 		try {
-		    // Save or update the item
+			
+			item.setUser(user);
 		    itemRepo.save(item);
 		    
 		    // Set appropriate success message
 		    if (item != null) {
 		        redirectAttrs.addFlashAttribute("messageSuccess", "Success.");
 	    }  else if (item == null) {
+	    	
 	    	  redirectAttrs.addFlashAttribute("messageSuccess2", "Updated.");
 		}
 		     
@@ -151,60 +150,83 @@ public class AssignmentController {
 		return "redirect:/item-list";
 
 	}
-	//READ LIST
+	
+	
+	// READ LIST
 	@GetMapping("/item-list")
 	public String viewItemList(@ModelAttribute ActiveLinkMenu menu, Model model, Principal principal,
-	        @ModelAttribute Item item) {
-	    try {
-	        String userName = principal.getName();
-	        User user = userRepository.getUserByUserName(userName);
-	        
-	       
-	        List<Item> itemList = itemRepo.findAll();
-	    
-	        model.addAttribute("itemList", itemList);
-	        menu.setListLink("active");
-	        model.addAttribute("menu", menu);
-	        model.addAttribute("user", user);
-	        
-	        return "item-list";
-	    } catch (Exception e) {
-	        // Log the exception
-	    	logger.error("An error occurred in viewItemList method: {}", e.getMessage(), e);
-	        
-	        return "error-page";
-	    }
+			@ModelAttribute Item item) {
+		try {
+			String userName = principal.getName();
+			User user = userRepository.getUserByUserName(userName);
+
+			List<Item> itemList = itemRepo.findAllByUserId(user.getId());
+
+			model.addAttribute("itemList", itemList);
+			menu.setListLink("active");
+			model.addAttribute("menu", menu);
+			model.addAttribute("user", user);
+
+			return "item-list";
+		} catch (Exception e) {
+			// Log the exception
+			logger.error("An error occurred in viewItemList method: {}", e.getMessage(), e);
+
+			return "error-page";
+		}
 	}
 	
 	// DELETE OPERATION
 	@GetMapping("/delete-item/{itemId}")
 	public String deleteItem(@PathVariable int itemId, RedirectAttributes redirectAttrs) {
-	    try {
-	        itemRepo.deleteById(itemId);
-	        redirectAttrs.addFlashAttribute("messageSuccess1", "Item deleted successfully.");
-	    } catch (Exception e) {
-	        redirectAttrs.addFlashAttribute("messageError", "Error occurred while deleting the item.");
-	    	logger.error("An error occurred in deleteItem method: {}", e.getMessage(), e);
-	    }
-	    return "redirect:/item-list";
+		try {
+			itemRepo.deleteById(itemId);
+			redirectAttrs.addFlashAttribute("messageSuccess1", "Item deleted successfully.");
+		} catch (Exception e) {
+			redirectAttrs.addFlashAttribute("messageError", "Error occurred while deleting the item.");
+			logger.error("An error occurred in deleteItem method: {}", e.getMessage(), e);
+		}
+		return "redirect:/item-list";
 	}
 	
 		
-	 @GetMapping("/edit-item/{itemId}") 
-     public String editUser(@ModelAttribute ActiveLinkMenu menu, Model model, Principal principal, @PathVariable int itemId) {
-		 
-		    String userName = principal.getName();
+	@GetMapping("/edit-item/{itemId}")
+	public String editUser(@ModelAttribute ActiveLinkMenu menu, Model model, Principal principal,
+			RedirectAttributes redirectAttrs, @PathVariable int itemId) {
+		try {
+			String userName = principal.getName();
 			User user = userRepository.getUserByUserName(userName);
-			
+
 			Item itms = itemRepo.getById(itemId);
-			
+
 			model.addAttribute("user", user);
 			model.addAttribute("itms", itms);
 			menu.setListLink("active");
-			
+
 			model.addAttribute("menu", menu);
-			
-			return "update-form";
-	 }
+
+		} catch (Exception e) {
+			redirectAttrs.addFlashAttribute("messageError", "Error occurred while edit the item.");
+			logger.error("An error occurred in editITEm method: {}", e.getMessage(), e);
+		}
+
+		return "update-form";
+	}
+	 
+	 
+	@GetMapping("/user-registration")
+	public String userRegistration(Model model, RedirectAttributes redirectAttrs) {
+		try {
+			redirectAttrs.addFlashAttribute("messageSuccess", "Registration Successfully");
+		} catch (Exception e) {
+			// Handle the exception and log it properly.
+			redirectAttrs.addFlashAttribute("messageError", "An error occurred during registration.");
+			logger.error("An error occurred in the userRegistration method: {}", e.getMessage(), e);
+		}
+		return "user-registration"; // Return the view name for user registration.
+	}
+	 
+
+
 
 }

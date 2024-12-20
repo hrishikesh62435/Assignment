@@ -1,5 +1,7 @@
 package com.assignment.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +20,11 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	@Query("select t from Item t where t.itemId = :itemId")
 	public Item getItemById(@Param("itemId") int itemId);
+	
+	
+	
+	@Query(value = "select * from tbl_item t where t.user_id = :userId" ,nativeQuery = true)
+	public	List<Item> findAllByUserId(@Param("userId") int userId);
+
 
 }
